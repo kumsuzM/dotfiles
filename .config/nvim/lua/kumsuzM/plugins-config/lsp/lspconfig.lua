@@ -82,6 +82,13 @@ lspconfig["cssls"].setup({
 	on_attach = on_attach,
 })
 
+-- configure pyright
+lspconfig["pyright"].setup({
+	capabilities = capabilities,
+	on_attach = on_attach,
+	filetypes = { "python" },
+})
+
 -- configure tailwindcss server
 lspconfig["tailwindcss"].setup({
 	settings = {

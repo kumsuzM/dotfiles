@@ -21,6 +21,9 @@ null_ls.setup({
 		formatting.eslint_d,
 		formatting.stylua, -- lua formatter
 		formatting.prettier,
+		diagnostics.mypy,
+		diagnostics.ruff,
+		formatting.black,
 	},
 
 	-- configure format on save
