@@ -135,3 +135,4 @@ export PATH="/opt/homebrew/opt/openjdk@11/bin:$PATH"
 export PATH="$PATH:/opt/gradle/gradle-7.2/bin"
 export PATH="/opt/homebrew/opt/coreutils/libexec/gnubin:$PATH"
 
+export PATH="$HOME/.config/bin:$PATH"
