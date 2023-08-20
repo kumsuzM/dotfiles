@@ -21,12 +21,12 @@ window:
 
 font:
   normal:
-    family: MesloLGS NF
+    family: MesloLGM Nerd Font
     style: Regular
 
   size: 13.0
 
-# If `true`, bold text is drawn using the bright color variants.
+  # If `true`, bold text is drawn using the bright color variants.
   draw_bold_text_with_bright_colors: false
 
 # import catpuccin colour scheme
