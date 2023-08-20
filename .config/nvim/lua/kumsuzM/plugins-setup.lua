@@ -36,6 +36,9 @@ return packer.startup(function(use)
 	-- statusline
 	use("nvim-lualine/lualine.nvim")
 
+	-- Rusty rust
+	use("simrat39/rust-tools.nvim")
+
 	-- colorschemes
 	use("ellisonleao/gruvbox.nvim")
 	use("marko-cerovac/material.nvim")
