@@ -1,12 +1,8 @@
--- Add packer and plugins
-require("kumsuzM.plugins-setup")
+-- setup lazy and plugins
+require("kumsuzM.lazy")
 
 -- Sets up our preffered options and keymaps
-require("kumsuzM.core.options")
-require("kumsuzM.core.keymaps")
-
--- Plugin config files
-require("kumsuzM.plugins-config")
+require("kumsuzM.core")
 
 -- Colorscheme
 require("kumsuzM.set-colorscheme")
