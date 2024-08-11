@@ -1,0 +1,14 @@
+#!/bin/sh
+
+for i in $(seq 1 5); do 
+  query="$1"
+  curl -s "https://wallhaven.cc/api/v1/search?q=$query&atleast=1920x1080&sorting=favorites&page=$i" |
+    jq '.'|
+    grep path |
+    sed -E 's/^ *//g' |
+    sed -E 's/,$//g' |
+    cut -d' ' -f2 |
+    sed -E 's/"([^"]*)"/\1/g' > tmp.txt
+
+  wget -P ~/pix/wall/ $(cat tmp.txt)
+done

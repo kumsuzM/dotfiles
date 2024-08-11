@@ -1,0 +1,31 @@
+#!/bin/sh
+
+BROWSER="firefox"
+
+engine_url_list=$(cat <<EOF
+youtube https://www.youtube.com/results?search_query=
+amazon https://www.amazon.com.au/s?k=
+archwiki https://wiki.archlinux.org/index.php?search=
+reddit https://www.reddit.com/search/?q=
+webster https://www.merriam-webster.com/dictionary/
+google https://www.google.com/search?q=
+EOF
+)
+
+engines=$(echo "$engine_url_list" | cut -d' ' -f1)
+
+chosen_engine=$(echo "$engines" | dmenu -i -l 6 -p 'What would you like to search?')
+
+# exit if an engine wasn't chosen
+[ -z "$chosen_engine" ] && exit
+
+# grep out the chosen engine then get the search url from the second field
+engine_url=$(echo "$engine_url_list" | grep "$chosen_engine" | cut -d' ' -f2)
+
+query=$(dmenu -i -l 20 -p "Searching $chosen_engine:" < /dev/null)
+
+# exit if a query wasn't made
+[ -z "$query" ] && exit
+
+# Search for query in engine using browser
+"$BROWSER" "$engine_url$query"

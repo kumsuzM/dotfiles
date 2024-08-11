@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# if we chose sync TO cse, then we rsync from our computer to cse
+# if we chose sync FROM cse, then we rsync from our cse onto our computer
+
+to_or_from=$(printf "Pull from CSE\nPush to CSE" | dmenu -i -l 2 -p 'Would you like to pull or push from CSE?')
+
+if echo "$to_or_from" | grep -i "pull" > /dev/null; then
+  conf=$(
+    printf "yes\nno" |
+    dmenu -i -l 2 -p 'You are about to pull changes from CSE into your local computer, sure?'
+  )
+  [ "$conf" = "yes" ] && rsync -av z--exclude=target/ --exclude='.git' --exclude='.gitignore' z5359168@cse:~/Desktop/Courses/cs6991/ ~/dev/uni/cs6991 &&
+  notify-send "Changes pulled from cse"
+else
+  conf=$(
+    printf "yes\nno" |
+    dmenu -i -l 2 -p 'You are about to push changes from your local computer into cse, sure?'
+  )
+  [ "$conf" = "yes" ] &&
+    rsync -av --exclude=target/ --exclude='.git' --exclude='.gitignore' ~/dev/uni/cs6991/ z5359168@cse:~/Desktop/Courses/cs6991 && 
+    notify-send "Changes pushed to cse"
+fi
+

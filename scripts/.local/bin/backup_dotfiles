@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Destination directory on SSD
+DEST="/run/media/kumsuzM/T7/dotfiles"
+
+# Source directory
+SRC="$HOME/.dotfiles/"
+
+# Ensure the destination directory exists
+mkdir -p "$DEST"
+
+# Use rsync to only copy changed files
+rsync -avh --delete "$SRC" "$DEST"

@@ -1,0 +1,5 @@
+#!/bin/sh
+
+id=$(xsetwacom --list devices | grep -e 'STYLUS\s*$' | sed -E 's/.*id: ([0-9]+).*/\1/g')
+
+xsetwacom set $id Area 0 0 21600 12150

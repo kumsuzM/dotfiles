@@ -1,0 +1,42 @@
+#!/bin/sh
+
+options=$(cat <<EOF
+Logout
+Reboot
+Shutdown
+Quit
+EOF
+)
+
+choice=$(echo "$options" | dmenu -p 'Shutdown menu:' -i)
+
+case $choice in
+  'Logout')
+    if [ "$(printf "No\nYes" | dmenu -p "${choice}?" -i)" = "Yes" ]; then
+      loginctl kill-user "$UID"
+    else
+      echo "User chose not to logout." && exit 1
+    fi
+    ;;
+'Reboot')
+    if [ "$(printf "No\nYes" | dmenu -p "${choice}?" -i)" = "Yes" ]; then
+      systemctl reboot
+    else
+      echo "User chose not to reboot." && exit 0
+    fi
+    ;;
+'Shutdown')
+    if [ "$(printf "No\nYes" | dmenu -p "${choice}?" -i)" = "Yes" ]; then
+      systemctl poweroff
+    else
+      echo "User chose not to shutdown." && exit 0
+    fi
+    ;;
+'Quit')
+    echo "Program terminated." && exit 0
+    ;;
+# catch all:
+*)
+    exit 0
+    ;;
+esac

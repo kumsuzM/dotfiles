@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Define the links as a string, with each entry separated by a newline
+links="LinkedIn\nDiscord\nInstagram"
+
+# Show the dmenu prompt with the links. The chosen entry will be stored in 'choice'.
+choice=$(echo -e "$links" | dmenu -i -p 'Choose a link:')
+
+# Use a case statement to determine the action based on the choice
+case "$choice" in
+    LinkedIn)
+        echo -n 'https://www.linkedin.com/in/muhammed-kumsuz/' | xclip -selection clipboard
+        notify-send "Clipboard Updated" "LinkedIn link copied to clipboard."
+        ;;
+    Discord)
+        echo -n 'https://www.discord.com' | xclip -selection clipboard
+        notify-send "Clipboard Updated" "Discord link copied to clipboard."
+        ;;
+    Instagram)
+        echo -n 'https://www.instagram.com' | xclip -selection clipboard
+        notify-send "Clipboard Updated" "Instagram link copied to clipboard."
+        ;;
+    *)
+        notify-send "Notification" "No choice made or cancelled."
+        ;;
+esac

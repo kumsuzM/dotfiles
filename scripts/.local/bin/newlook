@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# select random wallpaper
+wall="$(find ~/pix/wall/ -type f -name "*.jpg" -o -name "*.png" | shuf -n1)"
+
+# set wallpaper
+xwallpaper --zoom $wall
+
+# generate colour scheme
+wal -c
+wal -i $wall
+
+xdotool key super+F5

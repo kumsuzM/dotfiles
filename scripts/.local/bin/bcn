@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#bcn, Bluetooth Connect
+
+num_devices=$(bluetoothctl devices | wc -l)
+
+# if we have one device, select that mac address,
+# otherwise select device via dmenu
+if [ "$num_devices" -eq 1 ]; then
+  echo we have one device
+	MAC=$(bluetoothctl devices | cut -d' ' -f2)
+	[ -z $MAC ] && MAC=NoDeviceFound # Prevents accidental disconnect error
+else
+	select=$(bluetoothctl devices | cut -d' ' -f3- | dmenu -l 10)
+	MAC=$(bluetoothctl devices | grep "$select" | cut -d' ' -f2) 
+	[ -z $MAC ] && MAC=NoDeviceFound # Prevents accidental disconnect error
+fi
+
+connection_status=$(bluetoothctl info "$MAC" | grep Connected: | awk '{print $2}')
+if [ "$connection_status" = "no" ]; then 
+	notify-send "Attempting to connect to $select"
+	bluetoothctl connect $MAC || notify-send "Failed to Connect"
+elif [ "$connection_status" = "yes" ]; then
+	notify-send "Attempting to disconnect $select"
+	bluetoothctl disconnect $MAC 
+fi

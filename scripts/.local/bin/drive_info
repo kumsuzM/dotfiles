@@ -1,0 +1,3 @@
+#!/bin/sh
+
+notify-send "$(df -h | grep 'nvme0n1p3' | awk '{print "Drive",$1,"is",$5,"used"}')"

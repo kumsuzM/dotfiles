@@ -1,0 +1,15 @@
+#!/bin/sh
+
+
+# if we are currently on the primary monitor switch to secondary
+if mons | grep -qs 'primary'; then
+  # connect to secondary monitor (which is the big one)
+  # TODO: also extend to second monitor (laptop screen)
+  mons -s
+  # sets caps to control (required to run after connecting kb)
+  setxkbmap -option "caps:ctrl_modifier"
+else
+  # otherwise we are already the secondary monitor and we switch
+  # back to the primary
+  mons -o
+fi

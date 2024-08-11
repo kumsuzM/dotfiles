@@ -1,0 +1,20 @@
+#!/bin/sh
+
+bssid=$(
+  nmcli device wifi list |
+  sed -n '1!p' |
+  cut -b 9- |
+  dmenu -p 'Select Wifi:' -l 20 -i |
+  cut -d' ' -f1
+)
+
+# if no bssid wasn selected tell user and exit
+if [ -z "$bssid" ]; then 
+  echo "You did not select a network";
+  exit 1
+fi
+
+pass=$(dmenu -p "Enter Password:" < /dev/null)
+
+# if we are supplied password use it, oterhwise connect with just the bssid
+[ -n "$pass" ] && nmcli device wifi connect "$bssid" password "$pass" || nmcli device wifi connect "$bssid"
