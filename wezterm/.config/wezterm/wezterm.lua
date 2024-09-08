@@ -9,12 +9,12 @@ local config = wezterm.config_builder()
 -- ════════════════════════════════════════════════════════════════════════════
 config.font_size = 10.0
 config.font = wezterm.font("JetBrainsMonoNL Nerd Font Mono")
-config.color_scheme = "Gruvbox Material (Gogh)"
+config.color_scheme = "Catppuccin Mocha (Gogh)"
 
 config.use_dead_keys = false
 config.scrollback_lines = 5000
 
-config.window_background_opacity = 0.95
+-- config.window_background_opacity = 0.95
 config.use_ime = false
 config.debug_key_events = true
 
@@ -95,7 +95,21 @@ config.keys = {
 	-- use leader + m to toggle maximize pane
 	{ key = "m", mods = "LEADER", action = wezterm.action.TogglePaneZoomState },
 
-	-- Lastly, workspace
+	-- Create new workspace
+	{
+		key = "W",
+		mods = "LEADER|SHIFT",
+		action = act.PromptInputLine({
+			description = "Enter name for new workspace:",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:perform_action(act.SwitchToWorkspace({ name = line }), pane)
+				end
+			end),
+		}),
+	},
+
+	-- Switch between workspaces
 	{ key = "w", mods = "LEADER", action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
 }
 
