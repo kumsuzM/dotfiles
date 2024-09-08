@@ -1,1 +1,1 @@
-require("kumsuzM.colorschemes.gruvbox")
+require("kumsuzM.colorschemes.catppuccin")

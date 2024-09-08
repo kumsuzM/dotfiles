@@ -13,8 +13,6 @@ return {
 		opts = {},
 	},
 
-	"github/copilot.vim",
-
 	-- allows for smooth scroll
 	{
 		"karb94/neoscroll.nvim",
