@@ -1,7 +1,7 @@
 return {
 	"williamboman/mason.nvim",
+	cmd = "Mason",
 	dependencies = {
-		"williamboman/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 	},
 	config = function()
@@ -23,7 +23,7 @@ return {
 		mason_lspconfig.setup({
 			-- list of servers for mason to install
 			ensure_installed = {
-				"tsserver",
+				"ts_ls",
 				"html",
 				"cssls",
 				"tailwindcss",
@@ -32,6 +32,7 @@ return {
 				"clangd",
 				"pyright",
 				"rust_analyzer",
+				"gopls",
 			},
 		})
 
