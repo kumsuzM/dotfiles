@@ -110,7 +110,7 @@ config.keys = {
 	},
 
 	-- Switch between workspaces
-	{ key = "w", mods = "LEADER", action = act.ShowLauncherArgs({ flags = "FUZZY|WORKSPACES" }) },
+	{ key = "w", mods = "LEADER", action = act.ShowLauncherArgs({ flags = "WORKSPACES" }) },
 }
 
 for i = 1, 9 do
