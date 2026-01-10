@@ -7,7 +7,6 @@ return {
 		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		"nvim-telescope/telescope-ui-select.nvim",
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
-		"ThePrimeagen/harpoon",
 	},
 	config = function()
 		-- import telescope plugin
@@ -36,7 +35,6 @@ return {
 		})
 
 		telescope.load_extension("fzf")
-		telescope.load_extension("harpoon")
 		-- TODO: figure out how to use ui select to select nvim theme
 		telescope.load_extension("ui-select")
 
@@ -52,7 +50,6 @@ return {
 		keymap.set("n", "<leader>fs", builtin.live_grep, { desc = "[F]ind [S]tring by grep" })
 		keymap.set("n", "<leader>fc", builtin.grep_string, { desc = "[F]ind [C]urrent word" })
 		keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind [B]uffers" })
-		keymap.set("n", "<leader>hf", "<cmd>Telescope harpoon marks<cr>") -- show harpoon marks
 
 		-- git commands
 		keymap.set("n", "<leader>gc", builtin.git_commits) -- list all git commits (use <cr> to checkout) ["gc" for git commits]

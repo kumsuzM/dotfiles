@@ -2,16 +2,15 @@ return {
 	"neovim/nvim-lspconfig",
 	event = { "BufReadPre", "BufNewFile" },
 	dependencies = {
-		"hrsh7th/cmp-nvim-lsp",
+		{ "williamboman/mason.nvim", config = true },
 		"williamboman/mason-lspconfig.nvim",
-    'williamboman/mason.nvim',
+		"saghen/blink.cmp",
 		{ "antosha417/nvim-lsp-file-operations", config = true },
 		{ "folke/neodev.nvim", opts = {} },
 	},
 	config = function()
 		local mason_lspconfig = require("mason-lspconfig")
 		local lspconfig = require("lspconfig")
-		local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -56,7 +55,7 @@ return {
 				--
 				-- When you move your cursor, the highlights will be cleared (the second autocommand).
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
-				if client and client.server_capabilities.documentHighlightProvider then
+				if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
 					local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 						buffer = event.buf,
@@ -68,6 +67,14 @@ return {
 						buffer = event.buf,
 						group = highlight_augroup,
 						callback = vim.lsp.buf.clear_references,
+					})
+
+					vim.api.nvim_create_autocmd("LspDetach", {
+						group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+						callback = function(event2)
+							vim.lsp.buf.clear_references()
+							vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+						end,
 					})
 				end
 
@@ -82,20 +89,9 @@ return {
 				end
 			end,
 		})
-
-		vim.api.nvim_create_autocmd("LspDetach", {
-			group = vim.api.nvim_create_augroup("UserLspDetach", { clear = true }),
-			callback = function(event)
-				vim.lsp.buf.clear_references()
-				vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event.buf })
-			end,
-		})
-
 		-- used to enable autocompletion (assign to every lsp server config)
-		-- local capabilities = cmp_nvim_lsp.default_capabilities()
-
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = vim.tbl_deep_extend("force", capabilities, cmp_nvim_lsp.default_capabilities())
+		local lsp_capabilities = vim.lsp.protocol.make_client_capabilities()
+		local capabilities = require("blink.cmp").get_lsp_capabilities(lsp_capabilities)
 
 		-- Change the Diagnostic symbols in the sign column (gutter)
 		local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }

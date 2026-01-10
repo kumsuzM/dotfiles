@@ -1,17 +1,24 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
 	event = { "BufReadPre", "BufNewFile" },
-	build = function()
-		require("nvim-treesitter.install").update({ with_sync = true })
-	end,
+	build = ":TSUpdate",
 	dependencies = { "windwp/nvim-autopairs" },
 	config = function()
 		local treesitter = require("nvim-treesitter.configs")
-
 		-- configure treesitter
 		treesitter.setup({
 			-- enable syntax highlighting
-			highlight = { enable = true },
+			highlight = {
+				enable = true,
+				-- Disable slow treesitter highlight for large files
+				disable = function(lang, buf)
+					local max_filesize = 100 * 1024 -- 100 KB
+					local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+					if ok and stats and stats.size > max_filesize then
+						return true
+					end
+				end,
+			},
 			-- enable indentation (indentation is wacky for go though so disable it)
 			indent = { enable = true, disable = { "go" } },
 			-- enable autotagging (w/ nvim-ts-autotag plugin)
@@ -22,6 +29,7 @@ return {
 				"javascript",
 				"typescript",
 				"c",
+				"diff",
 				"tsx",
 				"yaml",
 				"html",
